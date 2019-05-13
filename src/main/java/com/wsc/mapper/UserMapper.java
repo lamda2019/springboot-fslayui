@@ -1,5 +1,6 @@
 package com.wsc.mapper;
 
+import com.wsc.pojo.Province;
 import com.wsc.pojo.User;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
@@ -15,5 +16,8 @@ public interface UserMapper extends Mapper<User> {
 
     @Select("select count(*) from t_user where 1=1")
     int countUser();
+
+    @Select("select * from province where 1=1")
+    List<Province> getProvince(int parentid);
 
 }

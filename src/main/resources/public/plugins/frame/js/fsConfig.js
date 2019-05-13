@@ -24,7 +24,8 @@ layui.define([], function (exports) {
 	 * 项目中需要调用到的常量、变量这里配置
 	 */
 	fsConfig["global"] = {
-		"servletUrl":"https://admin.wueasy.com", //异步请求地址,本地工程可以不填
+		//"servletUrl":"https://admin.wueasy.com", //异步请求地址,本地工程可以不填
+		"servletUrl":"http://localhost:8086",
 		"loginUrl" : "/login", //登录url
 		"uploadUrl" : "https://fs.fallsea.com/upload", //上传附件url
 		"uploadHtmlUrl" : "/plugins/frame/views/upload.html", //上传附件html地址，默认/plugins/frame/views/upload.html
@@ -49,8 +50,8 @@ layui.define([], function (exports) {
 				"countName": "results.data.total", //数据总数的字段名称，默认：results.data.total
 				"dataName" : "results.data", //数据列表的字段名称，默认：results.data
 				"dataNamePage": "results.data.list" //分页数据列表的字段名称，默认：results.data.list
-			}//,
-//			"limit":10,//每页分页数量。默认20
+			},
+			"limit":10//,//每页分页数量。默认20
 //			"limits":[10,20,30,50,100]//每页数据选择项，默认[10,20,30,50,100]
 		}
 	};

@@ -1,8 +1,13 @@
 package com.wsc.controller;
 
 
+import com.wsc.pojo.Province;
 import com.wsc.pojo.User;
 import com.wsc.service.UserService;
+import com.wsc.util.PageBean;
+import com.wsc.util.Result;
+import com.wsc.util.ResultGenerator;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,17 +46,39 @@ public class UserController {
     }
 
     /**
-     * 商品分页功能(集成mybatis的分页插件pageHelper实现)
+     * 用户分页功能(集成mybatis的分页插件pageHelper实现)
      *
-     * @param currentPage    :当前页数
+     * @param pageNum    :当前页数
      * @param pageSize        :每页显示的总记录数
      * @return
      */
 
-    @RequestMapping(value="userPage/{currentPage}/{pageSize}",method = RequestMethod.GET)
+    @RequestMapping(value="userPage",method = RequestMethod.POST)
     @ResponseBody
-    public List<User> userPage(@PathVariable("currentPage")int currentPage,@PathVariable("pageSize") int pageSize){
-        return userService.findUserByPage(currentPage, pageSize);
+    public Result userPage(int pageNum, int pageSize){
+        PageBean<User> pageData= userService.findUserByPage(pageNum, pageSize);
+        JSONObject json=new JSONObject();
+        JSONObject json1=new JSONObject();
+        json1.put("pageNum", pageData.getCurrentPage());
+        json1.put("pageSize", pageData.getPageSize());
+        json1.put("pages", pageData.getTotalPage());
+        json1.put("total", pageData.getTotalNum());
+        json1.put("list", pageData.getItems());
+        json.put("data",json1);
+        return ResultGenerator.genSuccessResult(json);
+    }
+
+    /**
+     * 获取所有省份
+     */
+
+    @RequestMapping(value="getProvince",method = RequestMethod.GET)
+    @ResponseBody
+    public Result getProvince(int parentid){
+        List<Province> list= userService.getProvinceById(parentid);
+        JSONObject json=new JSONObject();
+        json.put("data",list);
+        return ResultGenerator.genSuccessResult(json);
     }
 
 }
