@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class UserSqlProvider {
 
-    //批量删除，坑，参数需要@Param，否则取不到
+    //批量删除，坑，参数需要@Param， 否则取不到
     public String deletePatchUserInfo(Map map) {
         StringBuilder sb = new StringBuilder();
         int[] id= (int[]) map.get("id");
