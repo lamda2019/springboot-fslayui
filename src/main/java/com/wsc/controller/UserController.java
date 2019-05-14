@@ -1,19 +1,21 @@
 package com.wsc.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.wsc.pojo.City;
 import com.wsc.pojo.User;
 import com.wsc.service.UserService;
 import com.wsc.util.PageBean;
 import com.wsc.util.Result;
 import com.wsc.util.ResultGenerator;
-import net.sf.json.JSONObject;
+import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -58,8 +60,10 @@ public class UserController {
 
     @RequestMapping(value="userPage",method = RequestMethod.POST)
     @ResponseBody
-    public Result userPage(int pageNum, int pageSize){
-        PageBean<User> pageData= userService.findUserByPage(pageNum, pageSize);
+    public Result userPage(int pageNum, int pageSize,@RequestParam(value="id",defaultValue = "-1") int id,@RequestParam(value="name",defaultValue = "") String name,@RequestParam(value="createDate",defaultValue = "") String createDate){
+
+        PageBean<User> pageData= userService.findUserByPage(pageNum, pageSize,id,name,createDate);
+
         JSONObject json=new JSONObject();
         JSONObject json1=new JSONObject();
         json1.put("pageNum", pageData.getCurrentPage());
@@ -117,7 +121,7 @@ public class UserController {
     @RequestMapping(value="saveUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public Result saveUserInfo(User user){
-        user.setModifiedTime(user.getCreatedTime());
+        user.setModifiedTime(new Date());
         int result= userService.save(user);
         JSONObject json=new JSONObject();
         json.put("data",result);

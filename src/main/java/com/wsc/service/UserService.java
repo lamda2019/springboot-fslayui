@@ -8,7 +8,7 @@ import com.wsc.util.PageBean;
 import java.util.List;
 
 public interface UserService extends BaseService<User> {
-    public PageBean<User> findUserByPage(int currentPage, int pageSize);
+    public PageBean<User> findUserByPage(int currentPage, int pageSize,int id,String name,String createDate);
 
     public List<City> getCityById(int parentid);
 
