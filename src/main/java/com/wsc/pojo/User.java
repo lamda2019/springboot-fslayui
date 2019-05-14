@@ -14,6 +14,8 @@ public class User {
     private String city;
     @Column(name = "CREATEDTIME")
     private String createdTime;
+    @Column(name = "MODIFIEDTIME")
+    private String modifiedTime;
     @Column(name = "DESCRIPTION")
     private String description;
     @Column(name = "FILEPATH")
@@ -127,5 +129,13 @@ public class User {
 
     public void setArea3(String area3) {
         this.area3 = area3;
+    }
+
+    public String getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(String modifiedTime) {
+        this.modifiedTime = modifiedTime;
     }
 }

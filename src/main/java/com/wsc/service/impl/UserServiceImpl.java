@@ -2,7 +2,7 @@ package com.wsc.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.wsc.mapper.UserMapper;
-import com.wsc.pojo.Province;
+import com.wsc.pojo.City;
 import com.wsc.pojo.User;
 import com.wsc.service.UserService;
 import com.wsc.tools.BaseServiceImpl;
@@ -29,8 +29,24 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         return pageData;
     }
 
-    public List<Province> getProvinceById(int parentid){
-        return userMapper.getProvince(parentid);
+    @Override
+    public List<City> getCityById(int parentid){
+        return userMapper.getCity(parentid);
+    }
+
+    @Override
+    public User getUserInfoById(int id) {
+        return userMapper.getUserInfoById(id);
+    }
+
+    @Override
+    public void deleteUserInfo(int id) {
+        userMapper.deleteUserInfo(id);
+    }
+
+    @Override
+    public void deletePatchUserInfo(int[] id) {
+        userMapper.deletePatchUserInfo(id);
     }
 
 }

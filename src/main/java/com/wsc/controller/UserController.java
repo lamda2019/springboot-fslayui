@@ -1,7 +1,7 @@
 package com.wsc.controller;
 
 
-import com.wsc.pojo.Province;
+import com.wsc.pojo.City;
 import com.wsc.pojo.User;
 import com.wsc.service.UserService;
 import com.wsc.util.PageBean;
@@ -10,7 +10,10 @@ import com.wsc.util.ResultGenerator;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -72,12 +75,105 @@ public class UserController {
      * 获取所有省份
      */
 
-    @RequestMapping(value="getProvince",method = RequestMethod.GET)
+    @RequestMapping(value="getCity",method = RequestMethod.POST)
     @ResponseBody
-    public Result getProvince(int parentid){
-        List<Province> list= userService.getProvinceById(parentid);
+    public Result getCity(int parentid){
+        List<City> list= userService.getCityById(parentid);
         JSONObject json=new JSONObject();
         json.put("data",list);
+        return ResultGenerator.genSuccessResult(json);
+    }
+
+    /**
+     * 上传文件
+     */
+    @PostMapping("/upload")
+    @ResponseBody
+    public Result upload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResultGenerator.genFailResult("上传失败，请选择文件");
+        }
+        String fileName = file.getOriginalFilename();
+        String filePath = "D:\\";
+        File dest = new File(filePath + fileName);
+        try {
+            file.transferTo(dest);
+            //坑2，返回数据必须为json，格式固定，必须有results.data.filePath
+            JSONObject json=new JSONObject();
+            JSONObject json1=new JSONObject();
+            json1.put("filePath",filePath + fileName);
+            json.put("data",json1);
+            return ResultGenerator.genSuccessResult(json);
+        } catch (IOException e) {
+            ResultGenerator.genFailResult("上传失败!"+e);
+        }
+        return ResultGenerator.genFailResult("上传失败!");
+    }
+
+    /**
+     * 保存用户信息
+     */
+
+    @RequestMapping(value="saveUserInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveUserInfo(User user){
+        user.setModifiedTime(user.getCreatedTime());
+        int result= userService.save(user);
+        JSONObject json=new JSONObject();
+        json.put("data",result);
+        return ResultGenerator.genSuccessResult(json);
+    }
+
+    /**
+     * 保存用户信息
+     */
+
+    @RequestMapping(value="getUserInfoById",method = RequestMethod.GET)
+    @ResponseBody
+    public Result getUserInfoById(int id){
+        User user= userService.getUserInfoById(id);
+        JSONObject json=new JSONObject();
+        json.put("data",user);
+        return ResultGenerator.genSuccessResult(json);
+    }
+
+    /**
+     * 更新用户信息
+     */
+
+    @RequestMapping(value="updateUserInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateUserInfo(User user){
+        int result=userService.update(user);
+        JSONObject json=new JSONObject();
+        json.put("data",result);
+        return ResultGenerator.genSuccessResult(json);
+    }
+
+    /**
+     * 删除用户信息
+     */
+
+    @RequestMapping(value="deleteUserInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public Result deleteUserInfo(int id){
+        userService.deleteUserInfo(id);
+        JSONObject json=new JSONObject();
+        json.put("data",1);
+        return ResultGenerator.genSuccessResult(json);
+    }
+
+    /**
+     *  批量删除用户信息
+     */
+
+    @RequestMapping(value="deletePatchUserInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public Result deletePatchUserInfo(int[] id){
+        //坑，id是数组
+        userService.deletePatchUserInfo(id);
+        JSONObject json=new JSONObject();
+        json.put("data",1);
         return ResultGenerator.genSuccessResult(json);
     }
 
