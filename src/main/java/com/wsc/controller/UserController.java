@@ -8,7 +8,6 @@ import com.wsc.service.UserService;
 import com.wsc.util.PageBean;
 import com.wsc.util.Result;
 import com.wsc.util.ResultGenerator;
-import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -181,4 +180,17 @@ public class UserController {
         return ResultGenerator.genSuccessResult(json);
     }
 
+    /**
+     *  添加树结构
+     */
+
+    @RequestMapping(value="deletePatchUserInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public Result addZTreeInfo(int[] id){
+        //坑，id是数组
+        userService.deletePatchUserInfo(id);
+        JSONObject json=new JSONObject();
+        json.put("data",1);
+        return ResultGenerator.genSuccessResult(json);
+    }
 }

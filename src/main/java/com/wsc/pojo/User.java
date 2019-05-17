@@ -13,14 +13,18 @@ import java.util.Date;
 public class User {
     @Id
     @Column(name = "ID")
-    private Integer id;//坑，int会报错，Integer可接收null
+    //坑，int会报错，Integer可接收null
+    private Integer id;
     @Column(name = "CITY")
     private String city;
-    @JsonFormat(pattern = "yyyy-MM-dd")//坑，返回给前端日期字符串，日期转字符串
-    @DateTimeFormat(pattern="yyyy-MM-dd")//坑，接收前端日期字符串，字符串转日期
+    //坑，返回给前端日期字符串，日期转字符串
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    //坑，接收前端日期字符串，字符串转日期
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column(name = "CREATEDTIME")
     private Date createdTime;
-    @JsonFormat(pattern = "yyyy-MM-dd")//大坑，返回jsson，用fastjson封装可转换成功，net.sf.json不能转换
+    //大坑，返回jsson，用fastjson封装可转换成功，net.sf.json不能转换
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column(name = "MODIFIEDTIME")
     private Date modifiedTime;

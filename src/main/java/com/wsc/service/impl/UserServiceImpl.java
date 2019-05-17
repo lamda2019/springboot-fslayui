@@ -1,6 +1,5 @@
 package com.wsc.service.impl;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageHelper;
 import com.wsc.mapper.UserMapper;
 import com.wsc.pojo.City;
@@ -27,7 +26,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
             String[] time=createDate.split(" - ");
             allUser = userMapper.findAll(id,name,time[0],time[1]);
         }else{
-            allUser = userMapper.findAll(id,name,null,null);//坑，null代替""
+            //坑，null代替""
+            allUser = userMapper.findAll(id,name,null,null);
         }
 
         //总记录数

@@ -25,6 +25,25 @@ public class UserSqlProvider {
 
     }
 
+    //按条件查找
+    public String findAllUser(Map map) {
+        StringBuilder sb = new StringBuilder();
+        int id= (int) map.get("id");
+        System.out.println("-------------------------"+id);
+        String name= (String) map.get("name");
+      //  String createdTime= (String) map.get("createdTime");
+        sb.append("select * from t_user where 1=1 ");
+       if(id!=-1){
+           sb.append(" and id ="+id+" ");
+       }
+        if(name!=null && !"".equals(name)){
+            sb.append(" and name like '%${"+name+"}%' ");
+        }
+        System.out.println("====================================="+sb);
+        return sb.toString();
+
+    }
+
 
 
 }
